@@ -1,0 +1,30 @@
+d1 
+$ degradeBy 0.5
+$ off 0.25 ((+ note (scale "minor" "2")).rev.(#speed 2))
+$ degradeBy 0.2 
+$ sometimesBy 0.2 (+ note (scale "minor" "5")) 
+$ note ( scale "minor" "f5*16" ) 
+# s "monopoly" 
+# release 0.6
+# room 0.5 
+# gain 0.7
+
+d1 silence
+
+d1 
+$ stack [
+    -- slow 2
+    -- $ swing (1/16)
+    -- $ note ( scale "minor" "[c4 c4 g4 f4*2]*2") # "monopoly:2" 
+    -- # legato 1 
+    -- # release 0.5
+    -- # gain 0.8,
+    s "[~ linn9000:16]*2"
+    # lpf 800
+    # release 0.3,
+    s "linn9000:2*4"
+]
+
+hush
+
+setcps 0.5

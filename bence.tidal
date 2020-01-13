@@ -1,0 +1,56 @@
+
+d1
+-- $ off 0.25 ( # speed 4)
+-- $ off 0.125 ( # speed 2) 
+$ fast 2 $ s "stab:2(3,8)" # n "<5 7 9 12>"
+# lpf 800
+# gain 0.9
+
+
+d2  $ s "909k:8*4" # gain 0.8
+
+setcps 0.6
+
+d1 silence
+
+hush
+
+d1 $ stack
+    [
+    sometimesBy 0.2 ( (# speed 1.5) . ( # gain 0.8 ) . (  # room 0.9)) 
+    -- $ off  0.25 ( # speed 4 ) 
+    -- sometimes ( # speed 1.6 ) 
+    --
+    $ s "jvbass*16"
+    # n "<9 4 6 7>*16"
+    --
+    -- # lpf ( range 700 1200 sine )
+    -- # lpq 0.3
+    ,
+    s "909k:2*4"
+    -- # release 0.4
+    -- ,
+    -- n "[3(2,8) 4*1,2 7? 9*2 3?]*6"
+    -- # s "hh"
+    -- # release 0.35
+    ]
+
+
+
+
+
+d1
+$ off 0.125 ( # speed 4 )
+$ off 0.25 ( # speed 2 )
+$ "[m1piano:5(3,8) m1piano:3(3,8)]/1" # legato 0.5
+# lpf 900
+# delay 0.1
+
+
+d1
+$ degradeBy 0.4 $ jux ( rev )
+$ off 0.25 ( # speed 2 )
+$ note ( scale "minor" "2 3 9 4 8 2" ) # s "gtr"
+
+
+hush

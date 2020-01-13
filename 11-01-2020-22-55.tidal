@@ -1,0 +1,142 @@
+d8 $ stack [
+    off 0.25 (# speed 2)
+    $ s "[rims:2(3,8) rims:4(3,8)]*1,2"
+]
+
+hush
+
+
+
+-- arpy őrület
+d1 
+    $ superimpose ( rev . ( |*4 ) . ( # gain 0.6 ))
+    -- $ sometimesBy 0.125 ( |* 2 )
+    $ off 0.75 ( # speed 2 )
+    $ off 0.25 ( rev . ( # crush 0.1 ) . (# speed 8 ))
+    -- $ s "[jvbass(3,8)]*2"
+    $ s "jvbass*16?" 
+    # n "<4 0 7 3>"
+    # legato 1
+    # lpf (range 900 1900 sine )
+    -- # lpq (range 0.1 0.4 sine )
+    # room 0.4
+    # gain 0.8
+
+-- sima 909 kick
+d2  
+    $ superimpose ( rev .  (# speed 0.5) . ( # gain 0.4))
+    -- $ sometimesBy 0.125 (# loop 2 )  
+    $ s "kicks:9*4" 
+    -- # legato 2
+    # release 0.7
+    -- # shape 0.4
+    # gain 1.2
+
+d2 silence    
+
+-- hats
+d3  $ sometimesBy 0.125 ( |* 2 )
+    $ s "{ hhs*16, hhs:2*8 }"
+    # room 0.2
+    # lpf 1000
+    # gain 1.1
+
+d3 silence    
+
+
+-- hülye clap
+d4
+    -- $ off 0.125 ( # crush 2 )
+    $ s "{ claps:2*4 ~ claps:2*2 ~ , claps:1 ~ ~ ~ }"
+    # lpf ( range 500 1200 sine )
+    # gain 0.9
+    -- # room 0.5
+
+
+-- jól beloopolt pad
+d5
+    $ loopAt 2
+    $ s "Pads:12"
+    # speed "<0.8 1 0.9>"
+    # lpf 400
+    # room 0.4
+    # gain 0.8
+    # pan sine
+
+d5 silence
+
+d6
+    $ sometimesBy 0.2 rev 
+    $ brak $ loopAt 2.5 $ s "breaks152"
+
+d6 silence
+
+-- acid :(((((((((((((((((((())))))))))))))))))))
+d7 
+    -- $ juxBy 0.5 ( rev )
+    -- $ off 0.125 ((# speed 2))
+    $ off 0.125 ((# speed 3))
+    -- $ off 0.125 ((# speed 2))
+    -- $ sometimesBy 0.25  ( # speed 2 )
+    -- $ sometimesBy 0.5 ( # loop 2 )
+    -- $ s "[acid:6(3,8)]/2"
+    $ n "4*16"
+    # s "acid"
+    # lpf ( range 100 2200 sine )
+    # lpq ( range 0.1 0.4 cosine )
+    # gain 1
+
+hush
+
+-- snowball - hozzáadja N cycle alatt a megadott operátort
+d1 $ note (scale "minor" $ snowball 4 (+) (slow 2 . rev) "0 3 . 2 4 6") # s "gtr"
+
+d2 $ note ( scale "minor" $ snowball 4 (+) (slow 2 . rev) "1") # s "jvbass"
+
+hush
+
+d1 $ soak 4 (iter 4) $ s "{bd(3,8), sn(2,5,3)}"
+
+
+    -- note, set scale , add 0.25 offset and random notes to the pattern
+d1 $ (note $ scale "hexPhrygian" $ soak 4 ((0.25 <~).(+ irand(2))) "0 . 2 3 ~ . 0 1 . -1 -2") #s "gtr"
+
+
+d1 $ (note $ scale "hexPhrygian" $ soak 4 ( |+ 1) "0 . 2 3 ~ . 0 1 . -1 -2") #s "gtr"
+
+d1 
+    $ stack [
+        off 0.25 ( # speed 2)
+        -- sometimesBy 0.2 (# loop 2)
+        $ (note $ scale "hexPhrygian" $ soak 4 ( |+ 1) "0 . 2 3") #s "gtr"
+        # gain 0.8
+        ,
+        jux ( rev )
+        $ off 0.34 ( # speed 2)
+        $ note "0 . 2 3"
+        # s "808mt(3,8)"
+        # speed "<[3 4* 8 12 -2]*7>"
+        # gain 1.4
+    ]
+
+d1 $ note (scale "minor" $ snowball 4 (+) (slow 2 . rev) "0 3 . 2 4 6") # s "gtr"
+
+d1 $ note (scale "minor" $ snowball 2 (+) ( hurry 4 . rev)  $ (run 2)) # sound "gtr" # gain 0.9
+
+d1 $ snowball 4 () (hurry 2) $ note ( scale "minor" "0 1 2" ) # s "jvbass" # gain 0.9 
+
+d1 $ note  "0 2 3" # s "gtr"
+
+d1  -- $ stripe 4 $ off (range 0.25 0.35 sine) (rev)
+    $ (0.25 <~ ) $ note ( scale "minor" "[2 ~*2 4 3]/2") # sound "jvbass:5"
+    # delaytime 0.34 # delayfeedback 0.4 # delay 1.2
+
+
+hush
+
+
+
+d1 $ soak 4 (iter 8. slow 2 .ply 3) $ euclid 3 5 $ sound "bd sn"
+
+
+

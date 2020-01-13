@@ -1,0 +1,52 @@
+d1  
+    $ (0.75 <~)
+    $ sometimesBy 0.2 (|- note 12 ) 
+    $ superimpose (((1/8) <~).(|- note 7))
+    $ note "2 5 9 9" # s "acid" # release 0.7
+    # room 0.9 # size 0.8
+
+d2 $ stack 
+    [
+    s "bd*4" # release 0.7 # gain 1.2,
+    s "[~hc:2]*2"
+    ]
+
+
+hush
+
+d1 $ stack
+[
+s "linn:13 ~ ~ linn:13 ~ ~ ~ linn:13",
+s "~ ~ linn:18"
+-- s "linn:0*16" # gain 0.4
+]
+
+setcps 0.7
+
+d1 $ note "[5 5 ~ ~ 2 ~ 2 ~ 12 12 ~ 12 ~ 12 ~]" # s "jvbass:0"
+
+d1 $ note "c5 c5_ e5 e5_ f5 f5 f5 f5" # s "supersquare" # lpf 300 # lpq 0.3
+
+hush
+
+setcps 0.5
+
+d1 
+$ superimpose ( 0.75 ~> )
+$ stutWith 6 (1/8) (* gain 0.89) $ note "c3'min7" # s "superzow" 
+# lpf 1200
+# release 0.3
+# gain 1.2
+
+d2 $ "909k:4*4" # gain 1.5
+
+hush
+
+d4 $ note "c4'min7" # s "supertron" # release 1 # voice 8 # delay 0.7 # delaytime (1/16) #delayfeedback 0.4
+
+d1 $ s "supertron" # octave 3 # accelerate "0.2"
+
+hush
+
+
+d1 $ note "c4*16" # "superwavemechanics" # accelerate 0.1 # detune 1.2 # voice 0.4
