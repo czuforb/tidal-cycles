@@ -1,0 +1,63 @@
+-- world
+--   gabba kick
+-- wobble
+--   fasza basszus
+-- wind
+--   szelek, flute elég jó hang
+-- voodoo
+--   elég jó kit, lehet hogy a voodoo ray?#
+-- uxay
+--   0
+-- ulgab
+--   gabba kick szerű torzított gecik
+-- tok
+--   jó mély pitchelt kick szerű perka / basszu
+-- tink
+--   magas csilingelés
+-- techno
+--   1 az jó
+-- tech
+--   techno kit
+-- tabla2
+-- speakspell
+-- sn
+-- sitar
+-- sine
+-- sid
+-- sheffield
+--   atmo
+-- revebkick
+-- realclaps
+-- rave2
+-- psr:3
+-- popkick
+-- pluck !!!!!#
+-- peri
+-- odx
+-- off
+-- oc !!!#
+-- notes
+-- moog
+-- lt
+-- linnhats
+-- lighter
+-- less
+-- latibro
+-- kicklinn
+-- jvbass
+-- juno
+-- if
+-- jazz
+
+
+hush
+
+d1 $ s "if:1*6"
+
+d2 $ fast 2 $ s "[~ tech:7]*3" # gain 1.4
+
+d3 $ slow 2*3 $ n "7 9 5 12 7 9 5 5 5 5" # s "jvbass" # lpf "900" # lpq "0.6"
+
+
+
+hush

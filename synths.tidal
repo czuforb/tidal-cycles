@@ -1,0 +1,8 @@
+do
+   d1 $
+      every 3 (0.125 ~>) $
+      whenmod 6 3 (density (8/3)) $
+      whenmod 5 3 (density (8/3)) $
+      slow 2 $ s "peri*1 b*2 k*1 k*8 "
+      |=| n (every 1 (rev) $ every 3 (0.25 ~>) $ every 2 (density 1.5) $ "4 4 11 12 6 4 11 2 0")
+      |=| cut "-1"

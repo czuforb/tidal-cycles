@@ -1,0 +1,16 @@
+d1 
+-- $ every 8 ((# lpf ( range 500 1200 sine)))
+$ stack 
+    [
+        stutWith 6 (1/32) ((* gain 0.7))
+        $ s "909k:6*8" # gain 0.9,
+        -- stutWith 4 (1/16) (*gain 0.9) 
+        -- (~> 0.25) $ s "linn9000:12*4" # gain 0.8 # release 0.2,
+        stutWith 6 (1/16) ((* gain 0.8))
+        $ s "808sd:9*2"
+    ]
+
+    setcps 0.25
+
+
+hush

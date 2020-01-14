@@ -12,19 +12,18 @@ $ note ( scale "minor" "f5*16" )
 d1 silence
 
 d1 
-$ stack [
-    -- slow 2
-    -- $ swing (1/16)
-    -- $ note ( scale "minor" "[c4 c4 g4 f4*2]*2") # "monopoly:2" 
-    -- # legato 1 
-    -- # release 0.5
-    -- # gain 0.8,
-    s "[~ linn9000:16]*2"
-    # lpf 800
-    # release 0.3,
-    s "linn9000:2*4"
-]
+$ every 2 (rev) $ stack [
+    off 0.5 rev
+    $ off 0.125 (# speed 2)
+    $ note ( scale "major" "{e5 d5 ~ g5,e5 d5 g5 d5}/4" ) # s "gtr"
+] # lpf ( range 300 500 sine ) # lpq 0.2
 
 hush
 
 setcps 0.5
+
+
+d1 $ stack [ 
+    ghost $ 
+sound "~ odx:2", 
+sound "[~ odx:2]*4" # gain 0.8 ]

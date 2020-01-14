@@ -1,0 +1,217 @@
+
+-- within
+  -- csak egy bizonyos részére rakja rá a patternnek a functiont
+  -- $ within (tól,ig)
+-- whenmod
+  --
+-- ur
+  -- meg lehet adni, hogy hány cyclen keresztül pakoljon össze egy struktúrát és lejátsza azokat
+  -- kell hozzá egy pattern struktura array névvel
+  -- lehet hozzá csapni transition és fx et is
+-- spread
+  -- több cyclen keresztül kiterjeszti a megadott function paramétereit
+  -- ($) ezzel több function tudok egymás után rakni
+-- spreadChoose
+  -- random rotálja fentebbi
+-- sometimes
+  -- 50% rárakja
+-- sometimesBy
+  -- megadom mikor rakja rá
+-- someCycles
+  -- teljes cyclekre rakja rá 50%
+-- someCyclesBy
+-- jux
+  -- jobb oldali hangsávra rakja rá a functionnel megcsavart ucccot
+  -- . al lehet egyszerre többet adni
+-- juxBy
+  -- bal jobb - és kicsit közelebb lehet hozni
+-- ifp
+  -- kondicionálisan játsza le a faszi a functionnel
+-- fix
+  -- meg lehet adni hogy konkrétan mire rakja rá a functiont
+-- foldEvery
+  -- minden hanyadik cycleben menjen rá a function a patternre
+
+
+**WITHIN**
+
+    --   Use within to apply a function to only a part of a pattern
+    -- $ within STARTTIME ENDTIME - floats 0-1 - second argument must be greater than the first one
+    -- $ within (mettől, meddig) (mit)
+
+  d1 $ within (0.5, 1) (fast 2) $ sound "bd*2 sn lt mt hh hh hh hh"
+
+  d1 $ within (0.5,1) (# gain 1.2 ) $ s "bd*4"
+
+  hush
+
+** WHENMOD **
+
+  --whenmod  FOGALMAM SINCS
+    -- It applies the function to the pattern, when the remainder of the current loop number divided by the first parameter, is greater or equal than the second parameter.
+
+  d1 $ whenmod 4 2 ( # gain 1.2 ) $ s "bd bd bd bd"
+  d1 $ whenmod 4 2 ( # gain 1.2 ) $ s "bd bd bd bd"
+
+  hush
+
+** UR **
+
+  --ur
+    -- three param:
+      -- how long the loop will take
+      -- a pattern giving the structure
+      -- lookup table for named patterns
+      -- second lookup table for named transformation/fx
+      -- előre meghatározott patterneket tudok sorba rakni és azt patternként kezelni + FX
+
+  let pats =
+        [
+          ("a", stack [n "c4 c5 g4 f4 f5 g4 e5 g4" # s "superpiano" # gain "0.7",
+                       n "[c3,g4,c4]" # s "superpiano"# gain "0.7"
+                      ]
+          ),
+          ("b", stack [n "d4 c5 g4 f4 f5 g4 e5 g4" # s "superpiano" # gain "0.7",
+                       n "[d3,a4,d4]" # s "superpiano"# gain "0.7"
+                      ]
+          ),
+          ("c", stack [n "f4 c5 g4 f4 f5 g4 e5 g4" # s "superpiano" # gain "0.7",
+                       n "[f4,c5,f4]" # s "superpiano"# gain "0.7"
+                      ]
+          )
+        ]
+  in
+
+  d1 $ ur 12 "a b c" pats []
+
+  hush
+
+** SPREAD **
+
+
+  -- spread
+    -- ha utána rakok egy functiont és annak több paramétert adok, akkor váltogatja őket
+
+    d1 $ spread fast[2,3] $ sound "ho ho:2 ho:3 hc"
+
+  hush
+
+    -- de ez amúgy ugyanaz
+
+    d1 $ fast "<2 3>" $ sound "ho ho:2 ho:3 hc"
+
+  hush
+
+    -- de ha nyomok egy ($) [több function , több function ] akkor sorban rotálja a functionöket /cycle
+
+  d1 $ spread ($) [density 2, rev, slow 2, striate 3, (# speed "0.8")] $ sound "[bd*2 [~ bd]] [sn future]*2 cp jvbass*4"
+
+  -- fastspread
+   -- ugyanez csak 1 cyclebe rakja az összeset
+
+  d1 $ spread ($) [gap 4, striate 4] $ sound "ho ho:2 ho:3 hc"
+
+  d1 $ fastspread ($) [gap 4, striate 4] $ sound "ho ho:2 ho:3 hc"
+
+
+  -- spreadChoose
+   -- random rotálja a functionöket
+
+
+   d1 $ spreadChoose ($) [gap 4, striate 4] $ sound "ho ho:2 ho:3 hc"
+
+   hush
+
+** SOMETIMES **
+
+--sometimes
+  -- néha :D kb 50% eséllyel rakja rá a functionöket
+
+d1 $ sometimes (# crush 2) $ n "0 1 [~ 2] 3" # sound "arpy"
+
+-- ilyen verzók vannak még ilyen esélyekkel :D
+  -- always	100%
+  -- almostAlways	90%
+  -- often	75%
+  -- sometimes	50%
+  -- rarely	25%
+  -- almostNever	10%
+  -- never	0%
+hush
+-- sometimesBy
+  -- ugynaez csak konkrétan meg lehet adni mekkora százalékkal
+
+  d1 $ sometimesBy 0.93 (# speed 2) $ s "bd*4"
+
+  d1 $ sometimesBy 0.2 (# speed 2) $ s "bd*4"
+
+  hush
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-- someCycles
+  -- ugyanaz mint fent, csak nem noteokra rakja, hanem az egész cycle random
+  d1 $ someCycles (# crush 2) $ n "0 1 [~ 2] 3" # sound "arpy"
+
+  hush
+
+-- someCyclesBy
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+-- jux
+   -- csak a jobb oldali stereo channelre rak effectet
+
+d1 $ slow 32 $ jux (rev) $ striate' 32 (1/16) $ sound "bev"
+
+  hush
+
+  -- hogyha . ot rakok a beszopandó functionök közé akkor egyszerre csavarja meg mindkettővel a patterneket
+
+d1 $ slow 32 $ jux ((# speed "0.5") . rev) $ striate' 32 (1/16) $ sound "bev"
+
+hush
+
+-- juxBy
+  -- original bal oldalon - csavart a jobb oldalon van kipannolva mint atom
+  -- 0.5 kicsit közelebb hozza középre
+
+  d1 $ juxBy 0.8 (fast 2) $ sound "bd sn:1"
+
+hush
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-- ifp
+  -- teszteli hogy mit játszon a faszi
+
+  d1 $ ifp ((== 0).(flip mod 2))
+    (striate 4)
+    (# coarse "24 48") $
+    sound "hh hc"
+
+    hush
+  -- vágni kell hozzá a haskell test szarságait !!!#
+  -- mindig az aktuális cycle a szám amit megkap
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-- fix
+  -- akkor pattintja rá a function, hogyha megadom neki hogy a kontrollban mire pattintCSa rá#
+d1 $ slow 2 $ fix (# crush 3) (n "[1,4]") $ n "0 1 2 3 4 5 6" # sound "arpy"
+
+hush
+
+d1 $ slow 2 $ fix (# crush 4) (n "[1,4,2]") $ s "bd:1 bd:2 bd:3 bd:4" -- ŐRÜLET
+
+hush
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+--foldEvery
+  -- a function minden HÁNYadik cyclebe menjen rá a patternre, olyan mint az every, csak nem kell sokszor beírni
+
+d1 $ foldEvery [3, 4, 5] (fast 2) $ sound "bd sn kurt"
+hush

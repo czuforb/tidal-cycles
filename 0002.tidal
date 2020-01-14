@@ -1,0 +1,75 @@
+
+
+
+setcps 0.45
+
+d1 $ s "jazz*4"
+
+d3 $ s "tech:6*16" # gain 1.2
+
+d1 silence
+
+d2  $ stutWith 16 ( 1/8 ) ((|* gain 0.95) . (# pan (range 0.3 0.7 $ slow 4 sine)))
+    $ slow 6
+      $ n "e3'min ~ g3'min ~ ~"
+        # s "superzow"
+        # sustain 0.7
+        # gain 0.6
+        # lpf (range 100 1700 $ slow 4 tri)
+        # lpq (range 0 0.2 rand)
+d2 silence
+
+d3 $ stack [
+  stut 32 0.1 0.14 $ slow 2
+    $ n "<c3'min ~ e3'min>"
+    # s "superzow"
+    # sustain 0.4
+    # lpf 1700,
+  stut 16 0.2 0.19 $ slow 1.5
+    $ n "<g3'min ~ >"
+    # "superzow"
+    # sustain 0.25
+    # lpf 1200
+    # lpq 0.2
+  ]
+
+
+
+
+  --------------#
+
+
+
+  setcps 1
+
+  d1 $ s "super808 supersnare" # n (irand 5)
+   # voice "0.2" # decay "[2 0.5]/4" # accelerate "-0.1" # sustain "0.5" # speed "[0.5 2]/4"
+
+
+
+
+   setcps (160/120)
+
+d1 $ s "bd(3, 8)" # gain 0.9
+
+d2 $ s "cp/2"
+
+d3 $ fast 2 $ every "13 5" (fast 2) $ s "hc:1*4" # speed "1.2" # gain 0.7
+
+
+
+
+
+
+hush
+
+
+
+
+
+
+d1 $ stack [
+            slow 2 $ randslice 8 $ s "breaks125" # delay "0.5"
+            ,
+            slow 3 $ randslice 12 $ s "breaks125:3" # delay "0.9"
+            ] # delay "0.1" # delayfb "1" # orbit 1
